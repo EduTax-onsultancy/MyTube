@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instant Passport Photo Studio & Print Tool</title>
+    <title>Advanced Passport Photo Studio Pro</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -12,11 +12,7 @@
             theme: {
                 extend: {
                     colors: {
-                        dark: {
-                            900: '#09090b',
-                            800: '#121216',
-                            700: '#1e1e24'
-                        },
+                        dark: { 900: '#09090b', 800: '#121216', 700: '#1e1e24' },
                         accent: '#a3e635'
                     }
                 }
@@ -25,21 +21,16 @@
     </script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Browser-side Background Removal Library (Imgly Background Removal) -->
+    <script src="https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/dist/index.umd.js"></script>
     <style>
         @media print {
-            body * {
-                visibility: hidden;
-            }
-            #printArea, #printArea * {
-                visibility: visible;
-            }
-            #printArea {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-            }
+            body * { visibility: hidden; }
+            #printArea, #printArea * { visibility: visible; }
+            #printArea { position: absolute; left: 0; top: 0; width: 100%; display: flex; justify-content: center; align-items: center; background: white !important; }
         }
+        .loader-spin { animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="bg-dark-900 text-gray-100 min-h-screen font-sans antialiased selection:bg-accent selection:text-black">
@@ -51,9 +42,9 @@
                 <div class="bg-accent text-black p-2 rounded-xl font-bold flex items-center justify-center w-10 h-10 shadow-lg shadow-accent/10">
                     <i class="fa-solid fa-id-card"></i>
                 </div>
-                <h1 class="font-bold text-lg tracking-tight">Passport Studio <span class="text-accent">Pro</span></h1>
+                <h1 class="font-bold text-lg tracking-tight">Passport Studio <span class="text-accent">AI Pro</span></h1>
             </div>
-            <span class="text-xs px-3 py-1 bg-dark-700 border border-gray-700 rounded-full text-gray-400">100% Free & Secure</span>
+            <span class="text-xs px-3 py-1 bg-dark-700 border border-gray-700 rounded-full text-gray-400">Client-Side AI Studio</span>
         </div>
     </header>
 
@@ -77,26 +68,32 @@
                     </label>
                 </div>
 
-                <!-- Step 2: Controls & Editing -->
+                <!-- Step 2: AI Background Removal & Customization -->
                 <div class="bg-dark-800 border border-gray-800 rounded-2xl p-6 shadow-xl space-y-4">
                     <h2 class="text-base font-semibold mb-2 flex items-center gap-2">
                         <span class="w-6 h-6 rounded-full bg-accent text-black flex items-center justify-center text-xs font-bold">2</span>
-                        Adjust & Edit
+                        AI Background & Edit
                     </h2>
 
-                    <!-- Background Color -->
-                    <div>
-                        <label class="text-xs font-medium text-gray-400 block mb-2">Background Color</label>
+                    <!-- BG Remove Button -->
+                    <button id="removeBgBtn" onclick="removeBackground()" class="w-full bg-dark-700 hover:bg-gray-700 text-gray-200 border border-gray-700 font-medium py-2.5 rounded-xl transition flex items-center justify-center gap-2 text-sm disabled:opacity-50">
+                        <i class="fa-solid fa-wand-magic-sparkles text-accent"></i> <span id="bgBtnText">Auto Remove Background</span>
+                    </button>
+
+                    <!-- Background Color Palette -->
+                    <div id="bgPalette" class="hidden pt-2">
+                        <label class="text-xs font-medium text-gray-400 block mb-2">New Background Color</label>
                         <div class="flex gap-3">
-                            <button onclick="setBgColor('#ffffff')" class="w-8 h-8 rounded-full bg-white border-2 border-gray-400 focus:scale-110 transition"></button>
-                            <button onclick="setBgColor('#3b82f6')" class="w-8 h-8 rounded-full bg-blue-500 border-2 border-transparent focus:scale-110 transition"></button>
-                            <button onclick="setBgColor('#ef4444')" class="w-8 h-8 rounded-full bg-red-500 border-2 border-transparent focus:scale-110 transition"></button>
-                            <button onclick="setBgColor('#10b981')" class="w-8 h-8 rounded-full bg-emerald-500 border-2 border-transparent focus:scale-110 transition"></button>
+                            <button onclick="setBgColor('#ffffff')" class="w-8 h-8 rounded-full bg-white border-2 border-gray-400 focus:scale-110 transition shadow"></button>
+                            <button onclick="setBgColor('#2563eb')" class="w-8 h-8 rounded-full bg-blue-600 border-2 border-transparent focus:scale-110 transition shadow"></button>
+                            <button onclick="setBgColor('#dc2626')" class="w-8 h-8 rounded-full bg-red-600 border-2 border-transparent focus:scale-110 transition shadow"></button>
+                            <button onclick="setBgColor('#059669')" class="w-8 h-8 rounded-full bg-emerald-600 border-2 border-transparent focus:scale-110 transition shadow"></button>
+                            <button onclick="setBgColor('#1e293b')" class="w-8 h-8 rounded-full bg-slate-800 border-2 border-transparent focus:scale-110 transition shadow"></button>
                         </div>
                     </div>
 
                     <!-- Sliders -->
-                    <div class="space-y-3 pt-2">
+                    <div class="space-y-3 pt-2 border-t border-gray-700/50">
                         <div>
                             <div class="flex justify-between text-xs text-gray-400 mb-1">
                                 <span>Brightness</span>
@@ -114,21 +111,34 @@
                     </div>
                 </div>
 
-                <!-- Step 3: Quantity Config -->
-                <div class="bg-dark-800 border border-gray-800 rounded-2xl p-6 shadow-xl">
-                    <h2 class="text-base font-semibold mb-4 flex items-center gap-2">
+                <!-- Step 3: Paper Size & Print Configuration -->
+                <div class="bg-dark-800 border border-gray-800 rounded-2xl p-6 shadow-xl space-y-4">
+                    <h2 class="text-base font-semibold mb-2 flex items-center gap-2">
                         <span class="w-6 h-6 rounded-full bg-accent text-black flex items-center justify-center text-xs font-bold">3</span>
-                        Print Copies Configuration
+                        Paper Size & Copies
                     </h2>
-                    <div class="flex items-center justify-between bg-dark-900 p-4 rounded-xl border border-gray-800">
+
+                    <!-- Paper Size Selector -->
+                    <div>
+                        <label class="text-xs font-medium text-gray-400 block mb-1">Photo Paper Size</label>
+                        <select id="paperSizeSelect" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-accent">
+                            <option value="4x6">4 x 6 inch (Standard Photo Paper)</option>
+                            <option value="5x7">5 x 7 inch Photo Paper</option>
+                            <option value="a4">A4 Sheet (Document Paper)</option>
+                        </select>
+                    </div>
+
+                    <!-- Copies Adjuster -->
+                    <div class="flex items-center justify-between bg-dark-900 p-3 rounded-xl border border-gray-800">
                         <span class="text-sm font-medium">Total Copies:</span>
                         <div class="flex items-center gap-3">
-                            <button onclick="adjustCopies(-1)" class="w-9 h-9 bg-dark-700 hover:bg-gray-700 rounded-lg flex items-center justify-center font-bold text-lg transition"><i class="fa-solid fa-minus text-sm"></i></button>
-                            <span id="copyCount" class="font-bold text-lg w-8 text-center">8</span>
-                            <button onclick="adjustCopies(1)" class="w-9 h-9 bg-dark-700 hover:bg-gray-700 rounded-lg flex items-center justify-center font-bold text-lg transition"><i class="fa-solid fa-plus text-sm"></i></button>
+                            <button onclick="adjustCopies(-1)" class="w-8 h-8 bg-dark-700 hover:bg-gray-700 rounded-lg flex items-center justify-center font-bold transition"><i class="fa-solid fa-minus text-xs"></i></button>
+                            <span id="copyCount" class="font-bold text-base w-6 text-center">8</span>
+                            <button onclick="adjustCopies(1)" class="w-8 h-8 bg-dark-700 hover:bg-gray-700 rounded-lg flex items-center justify-center font-bold transition"><i class="fa-solid fa-plus text-xs"></i></button>
                         </div>
                     </div>
-                    <button onclick="window.print()" class="w-full mt-4 bg-accent hover:bg-lime-500 text-black font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-accent/10">
+
+                    <button onclick="window.print()" class="w-full bg-accent hover:bg-lime-500 text-black font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-accent/10">
                         <i class="fa-solid fa-print"></i> Print / Save as PDF
                     </button>
                 </div>
@@ -150,10 +160,9 @@
 
                 <!-- Print Sheet Layout Preview -->
                 <div class="bg-dark-800 border border-gray-800 rounded-2xl p-6 shadow-xl flex-1 flex flex-col">
-                    <h3 class="text-sm font-medium text-gray-400 mb-4">Print Grid Preview (4x6 Photo Paper Sheet)</h3>
+                    <h3 class="text-sm font-medium text-gray-400 mb-4">Print Grid Preview (<span id="paperNameDisplay">4 x 6 inch</span> Sheet)</h3>
                     <div id="printArea" class="bg-white rounded-xl p-4 shadow-inner flex-1 overflow-auto min-h-[320px] flex items-center justify-center">
                         <div id="gridContainer" class="grid grid-cols-4 gap-2 w-fit">
-                            <!-- Dynamic passport tiles will render here -->
                             <div class="text-gray-400 text-xs text-center col-span-4 py-16">Sheet preview will appear here</div>
                         </div>
                     </div>
@@ -166,6 +175,7 @@
     <!-- JavaScript Application Logic -->
     <script>
         let currentImage = null;
+        let processedImageBlob = null;
         let copiesCount = 8;
         let bgColor = '#ffffff';
         let brightness = 100;
@@ -177,6 +187,8 @@
         const placeholderText = document.getElementById('placeholderText');
         const gridContainer = document.getElementById('gridContainer');
         const copyCountSpan = document.getElementById('copyCount');
+        const paperSizeSelect = document.getElementById('paperSizeSelect');
+        const paperNameDisplay = document.getElementById('paperNameDisplay');
 
         passportCanvas.width = 350;
         passportCanvas.height = 450;
@@ -184,12 +196,14 @@
         imageInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
+                processedImageBlob = file; // Default original
                 const reader = new FileReader();
                 reader.onload = (event) => {
                     const img = new Image();
                     img.onload = () => {
                         currentImage = img;
                         placeholderText.style.display = 'none';
+                        document.getElementById('bgPalette').classList.remove('hidden');
                         processAndRender();
                     };
                     img.src = event.target.result;
@@ -198,7 +212,59 @@
             }
         });
 
-        // Controls Event Listeners
+        // AI Background Removal using @imgly/background-removal
+        async function removeBackground() {
+            if (!processedImageBlob) return;
+            const btn = document.getElementById('removeBgBtn');
+            const btnText = document.getElementById('bgBtnText');
+            btn.disabled = true;
+            btnText.innerHTML = '<i class="fa-solid fa-spinner loader-spin mr-2"></i> Removing BG (AI)...';
+
+            try {
+                const blob = await imgDataRemoval(processedImageBlob);
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        currentImage = img;
+                        processAndRender();
+                        btn.disabled = false;
+                        btnText.innerText = 'Background Removed Successfully ✓';
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(blob);
+            } catch (error) {
+                console.error(error);
+                alert('Background removal failed. Please try another image.');
+                btn.disabled = false;
+                btnText.innerText = 'Auto Remove Background';
+            }
+        }
+
+        async function imgDataRemoval(file) {
+            // Calls open-source @imgly/background-removal model directly in browser
+            const resultBlob = await imggenRemoveBackground(file);
+            return resultBlob;
+        }
+        
+        // Helper mapping for external library function
+        async function imggenRemoveBackground(file) {
+            const imageBlob = await imgDataRemovalProcess(file);
+            return imageBlob;
+        }
+
+        // Direct wrapper function for library call
+        async function imgDataRemovalProcess(file) {
+            const config = {
+                progress: (key, current, total) => {
+                    console.log(`AI Progress: ${key} (${Math.round(current / total * 100)}%)`);
+                }
+            };
+            return await imglyRemoveBackground(file, config);
+        }
+
+        // Sliders & Controls Event Listeners
         document.getElementById('brightnessRange').addEventListener('input', (e) => {
             brightness = e.target.value;
             document.getElementById('brightVal').innerText = brightness + '%';
@@ -211,6 +277,21 @@
             if (currentImage) processAndRender();
         });
 
+        paperSizeSelect.addEventListener('change', (e) => {
+            const val = e.target.value;
+            if (val === '4x6') {
+                paperNameDisplay.innerText = '4 x 6 inch';
+                gridContainer.style.gridTemplateColumns = 'repeat(4, minmax(0, 1fr))';
+            } else if (val === '5x7') {
+                paperNameDisplay.innerText = '5 x 7 inch';
+                gridContainer.style.gridTemplateColumns = 'repeat(5, minmax(0, 1fr))';
+            } else {
+                paperNameDisplay.innerText = 'A4 Size';
+                gridContainer.style.gridTemplateColumns = 'repeat(6, minmax(0, 1fr))';
+            }
+            if (currentImage) renderGrid();
+        });
+
         function setBgColor(color) {
             bgColor = color;
             if (currentImage) processAndRender();
@@ -219,7 +300,7 @@
         function adjustCopies(val) {
             copiesCount += val;
             if (copiesCount < 1) copiesCount = 1;
-            if (copiesCount > 32) copiesCount = 32;
+            if (copiesCount > 40) copiesCount = 40;
             copyCountSpan.innerText = copiesCount;
             if (currentImage) renderGrid();
         }
@@ -231,11 +312,9 @@
             ctx.fillStyle = bgColor;
             ctx.fillRect(0, 0, passportCanvas.width, passportCanvas.height);
 
-            // Simple heuristic background removal approximation or raw fit:
-            // Since AI model loader requires huge script tags, we simulate canvas cropping to passport ratio & filters.
             ctx.filter = `brightness(${brightness}%) contrast(${contrast}%)`;
 
-            // Center crop to 3.5:4.5 ratio
+            // Center crop to passport ratio (3.5 : 4.5)
             const hRatio = passportCanvas.width / currentImage.width;
             const vRatio = passportCanvas.height / currentImage.height;
             const ratio = Math.max(hRatio, vRatio);
@@ -246,16 +325,13 @@
             ctx.drawImage(currentImage, 0, 0, currentImage.width, currentImage.height,
                           centerShiftX, centerShiftY, currentImage.width * ratio, currentImage.height * ratio);
             
-            ctx.filter = 'none'; // reset filter
+            ctx.filter = 'none';
             renderGrid();
         }
 
         function renderGrid() {
             gridContainer.innerHTML = '';
-            // Adjust grid columns based on count or keep 4 columns layout
-            gridContainer.style.gridTemplateColumns = 'repeat(4, minmax(0, 1fr))';
-
-            const dataURL = passportCanvas.toDataURL('image/jpeg', 0.9);
+            const dataURL = passportCanvas.toDataURL('image/jpeg', 0.95);
 
             for (let i = 0; i < copiesCount; i++) {
                 const imgElem = document.createElement('img');
