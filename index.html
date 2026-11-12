@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Studiozly — Instant Professional Website Builder</title>
+    <title>Studiozly — Pro Website Builder</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -26,10 +26,10 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
     </style>
 </head>
-<body class="bg-dark-900 text-gray-100 min-h-screen">
+<body class="bg-dark-900 text-gray-100 min-h-screen flex flex-col">
 
     <!-- Navbar -->
-    <header class="border-b border-gray-800 bg-dark-800/80 backdrop-blur sticky top-0 z-50">
+    <header class="border-b border-gray-800 bg-dark-800/90 backdrop-blur sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="bg-indigo-600 text-white p-2 rounded-xl font-bold flex items-center justify-center w-10 h-10 shadow-lg shadow-indigo-500/20">
@@ -37,66 +37,68 @@
                 </div>
                 <h1 class="font-bold text-lg tracking-tight">Studiozly <span class="text-indigo-400">Builder</span></h1>
             </div>
-            <button onclick="generateWebsite()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-xl font-semibold text-sm transition shadow-lg shadow-indigo-600/25 flex items-center gap-2">
-                <i class="fa-solid fa-eye"></i> লাইভ প্রিভিউ দেখুন
-            </button>
+            <div class="flex items-center gap-3">
+                <span class="text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full font-medium flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> লাইভ আপডেট চালু আছে
+                </span>
+            </div>
         </div>
     </header>
 
-    <!-- Main Builder Container -->
-    <main class="max-w-7xl mx-auto px-4 py-8">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
             <!-- Left: Form Input Panel -->
             <div class="lg:col-span-5 space-y-6">
                 <div class="bg-dark-800 border border-gray-800 rounded-2xl p-6 shadow-xl space-y-5">
-                    <h2 class="text-lg font-bold flex items-center gap-2 text-indigo-400">
-                        <i class="fa-solid fa-pen-nib"></i> আপনার ওয়েবসাইটের তথ্য দিন
+                    <h2 class="text-lg font-bold flex items-center gap-2 text-indigo-400 border-b border-gray-700/50 pb-3">
+                        <i class="fa-solid fa-pen-nib"></i> ওয়েবসাইটের তথ্য পূরণ করুন
                     </h2>
 
                     <!-- Brand Name -->
                     <div>
-                        <label class="text-xs font-semibold text-gray-400 block mb-1">ব্র্যান্ড বা দোকানের নাম</label>
-                        <input type="text" id="inputBrand" value="Nova Studio & Graphics" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-indigo-500">
+                        <label class="text-xs font-semibold text-gray-400 block mb-1">দোকান বা ব্র্যান্ডের নাম</label>
+                        <input type="text" id="inputBrand" value="Nova Creative Studio" oninput="updateLivePreview()" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-indigo-500">
                     </div>
 
                     <!-- Theme Style -->
                     <div>
-                        <label class="text-xs font-semibold text-gray-400 block mb-1">কালার থিম সিলেক্ট করুন</label>
-                        <select id="inputTheme" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-indigo-500">
-                            <option value="indigo">নিয়ন ইন্ডিগো (Modern Tech)</option>
-                            <option value="emerald">এমারেল্ড গ্রিন (Eco / Premium)</option>
-                            <option value="rose">রোজ ভায়োলেট (Creative / Fashion)</option>
-                            <option value="amber">অ্যাম্বার গোল্ড (Luxury / Warm)</option>
+                        <label class="text-xs font-semibold text-gray-400 block mb-1">প্রফেশনাল কালার থিম</label>
+                        <select id="inputTheme" onchange="updateLivePreview()" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-indigo-500">
+                            <option value="indigo">মডার্ন ইন্ডিগো (Tech & Agency)</option>
+                            <option value="emerald">এমারেল্ড গ্রিন (Eco & Premium)</option>
+                            <option value="rose">রোজ ভায়োলেট (Creative & Fashion)</option>
+                            <option value="amber">অ্যাম্বার গোল্ড (Luxury & Warm)</option>
                         </select>
                     </div>
 
                     <!-- About Me -->
                     <div>
-                        <label class="text-xs font-semibold text-gray-400 block mb-1">আমাদের সম্পর্কে (About Me / Agency)</label>
-                        <textarea id="inputAbout" rows="3" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-indigo-500">আমরা আধুনিক ডিজাইন, ব্র্যান্ডিং এবং হাই-কনভার্টিং ওয়েব ডেভেলপমেন্ট সার্ভিস প্রদান করি। আপনার ব্যবসাকে ডিজিটালি এগিয়ে নিতে আমরা আছি সবসময় পাশে।</textarea>
+                        <label class="text-xs font-semibold text-gray-400 block mb-1">আমাদের সম্পর্কে (About Description)</label>
+                        <textarea id="inputAbout" rows="3" oninput="updateLivePreview()" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-indigo-500">আমরা আধুনিক ডিজাইন, ব্র্যান্ডিং এবং হাই-কনভার্টিং ওয়েব ডেভেলপমেন্ট সার্ভিস প্রদান করি। আপনার ব্যবসাকে ডিজিটালি এগিয়ে নিতে আমরা আছি সবসময় পাশে।</textarea>
                     </div>
 
                     <!-- Gallery Images (Image URLs) -->
                     <div>
                         <label class="text-xs font-semibold text-gray-400 block mb-1">গ্যালারি ছবির লিংক (কমা দিয়ে একাধিক)</label>
-                        <textarea id="inputGallery" rows="2" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-indigo-500">https://images.unsplash.com/photo-1551288049-bebda4e38f71, https://images.unsplash.com/photo-1460925895917-afdab827c52f, https://images.unsplash.com/photo-1507238691740-187a5b1d37b8</textarea>
+                        <textarea id="inputGallery" rows="2" oninput="updateLivePreview()" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-indigo-500">https://images.unsplash.com/photo-1551288049-bebda4e38f71, https://images.unsplash.com/photo-1460925895917-afdab827c52f, https://images.unsplash.com/photo-1507238691740-187a5b1d37b8</textarea>
                     </div>
 
                     <!-- Contact Details -->
                     <div class="grid grid-cols-2 gap-3">
                         <div>
-                            <label class="text-xs font-semibold text-gray-400 block mb-1">হোয়াটসঅ্যাপ / ফোন</label>
-                            <input type="text" id="inputPhone" value="+880 1700 000000" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-indigo-500">
+                            <label class="text-xs font-semibold text-gray-400 block mb-1">ফোন নম্বর / ওয়াটসঅ্যাপ</label>
+                            <input type="text" id="inputPhone" value="+880 1700 000000" oninput="updateLivePreview()" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-indigo-500">
                         </div>
                         <div>
                             <label class="text-xs font-semibold text-gray-400 block mb-1">ইমেইল ঠিকানা</label>
-                            <input type="email" id="inputEmail" value="support@novastudio.com" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-indigo-500">
+                            <input type="email" id="inputEmail" value="support@novastudio.com" oninput="updateLivePreview()" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-indigo-500">
                         </div>
                     </div>
 
-                    <button onclick="generateWebsite()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-code"></i> ওয়েবসাইট জেনারেট করুন
+                    <button onclick="downloadHTML()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-download"></i> Save HTML (ফাইল ডাউনলোড করুন)
                     </button>
                 </div>
             </div>
@@ -105,15 +107,13 @@
             <div class="lg:col-span-7 flex flex-col gap-4">
                 <div class="bg-dark-800 border border-gray-800 rounded-2xl p-4 shadow-xl flex items-center justify-between">
                     <span class="text-sm font-semibold text-gray-400 flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span> লাইভ প্রিভিউ উইন্ডো
+                        <i class="fa-solid fa-desktop text-indigo-400"></i> লাইভ প্রিভিউ (রিয়েল-টাইম আপডেট)
                     </span>
-                    <button onclick="downloadHTML()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-lg shadow-emerald-600/20">
-                        <i class="fa-solid fa-download"></i> Save HTML (ডাউনলোড)
-                    </button>
+                    <span class="text-xs text-gray-500">মোবাইল ও ডেস্কটপ ফ্রেন্ডলি</span>
                 </div>
 
-                <!-- Preview iframe / box -->
-                <div class="bg-white rounded-2xl overflow-hidden shadow-2xl flex-1 border border-gray-700 min-h-[600px] relative">
+                <!-- Preview iframe -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-2xl border border-gray-700 h-[650px] relative">
                     <iframe id="previewFrame" class="w-full h-full border-0 absolute inset-0"></iframe>
                 </div>
             </div>
@@ -121,33 +121,31 @@
         </div>
     </main>
 
-    <!-- Generator Script -->
+    <!-- Generator & Live Preview Script -->
     <script>
-        function generateWebsite() {
-            const brand = document.getElementById('inputBrand').value;
+        function updateLivePreview() {
+            const brand = document.getElementById('inputBrand').value || 'My Agency';
             const theme = document.getElementById('inputTheme').value;
-            const about = document.getElementById('inputAbout').value;
-            const galleryRaw = document.getElementById('inputGallery').value;
-            const phone = document.getElementById('inputPhone').value;
-            const email = document.getElementById('inputEmail').value;
+            const about = document.getElementById('inputAbout').value || '';
+            const galleryRaw = document.getElementById('inputGallery').value || '';
+            const phone = document.getElementById('inputPhone').value || '';
+            const email = document.getElementById('inputEmail').value || '';
 
-            // Theme Color Mapping
-            let primaryColor = '#6366f1', badgeBg = '#e0e7ff', badgeText = '#4338ca';
-            if(theme === 'emerald') { primaryColor = '#059669'; badgeBg = '#d1fae5'; badgeText = '#065f46'; }
-            if(theme === 'rose') { primaryColor = '#e11d48'; badgeBg = '#ffe4e6'; badgeText = '#9f1239'; }
-            if(theme === 'amber') { primaryColor = '#d97706'; badgeBg = '#fef3c7'; badgeText = '#92400e'; }
+            // Color Palettes
+            let primary = '#6366f1', badgeBg = '#e0e7ff', badgeText = '#4338ca', gradientFrom = '#4f46e5', gradientTo = '#9333ea';
+            if(theme === 'emerald') { primary = '#059669'; badgeBg = '#d1fae5'; badgeText = '#065f46'; gradientFrom = '#047857'; gradientTo = '#10b981'; }
+            if(theme === 'rose') { primary = '#e11d48'; badgeBg = '#ffe4e6'; badgeText = '#9f1239'; gradientFrom = '#be123c'; gradientTo = '#fb7185'; }
+            if(theme === 'amber') { primary = '#d97706'; badgeBg = '#fef3c7'; badgeText = '#92400e'; gradientFrom = '#b45309'; gradientTo = '#f59e0b'; }
 
-            // Process Gallery Images
             const images = galleryRaw.split(',').map(img => img.trim()).filter(Boolean);
             let galleryHTML = images.map(url => `
-                <div class="rounded-2xl overflow-hidden shadow-lg border border-gray-100 group">
-                    <img src="${url}" class="w-full h-64 object-cover group-hover:scale-105 transition duration-500" alt="Work">
+                <div class="rounded-2xl overflow-hidden shadow-lg border border-gray-100 group bg-white">
+                    <img src="${url}" class="w-full h-64 object-cover group-hover:scale-105 transition duration-500" alt="Portfolio" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71'">
                 </div>
             `).join('');
 
-            // Complete Generated HTML Template
-            const fullHTML = `<!DOCTYPE html>
-<html lang="bn">
+            const templateHTML = `<!DOCTYPE html>
+<html lang="bn" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -157,46 +155,49 @@
     <style>@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap'); body { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
 </head>
 <body class="bg-gray-50 text-gray-900">
-    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <nav class="bg-white/80 backdrop-blur border-b border-gray-200 sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
             <span class="text-xl font-extrabold tracking-tight">${brand}</span>
-            <a href="#contact" class="bg-[${primaryColor}] text-white px-5 py-2.5 rounded-full font-bold text-sm shadow-md">যোগাযোগ করুন</a>
+            <a href="#contact" class="bg-[${primary}] text-white px-5 py-2.5 rounded-full font-bold text-sm shadow-md hover:opacity-90 transition">যোগাযোগ করুন</a>
         </div>
     </nav>
-    <section class="py-20 px-6 text-center max-w-4xl mx-auto">
-        <span class="inline-block px-4 py-1.5 rounded-full text-xs font-bold bg-[${badgeBg}] text-[${badgeText}] mb-4">প্রফেশনাল ক্রিয়েটিভ এজেন্সি</span>
-        <h1 class="text-4xl md:text-6xl font-black mb-6 tracking-tight leading-tight">আপনার ডিজিটাল ব্র্যান্ডকে রূপ দিন সঠিক ডিজাইনে</h1>
-        <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">${about}</p>
-        <a href="#gallery" class="inline-block bg-[${primaryColor}] text-white px-8 py-4 rounded-full font-bold shadow-xl hover:opacity-90 transition">আমাদের কাজগুলো দেখুন</a>
+
+    <section class="py-24 px-6 text-center max-w-4xl mx-auto">
+        <span class="inline-block px-4 py-1.5 rounded-full text-xs font-extrabold bg-[${badgeBg}] text-[${badgeText}] mb-4 tracking-wide uppercase">প্রফেশনাল ডিজিটাল প্ল্যাটফর্ম</span>
+        <h1 class="text-4xl md:text-6xl font-black mb-6 tracking-tight leading-tight">আপনার ব্যবসাকে এগিয়ে নিন প্রফেশনাল ডিজাইনে</h1>
+        <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">${about}</p>
+        <a href="#gallery" class="inline-block bg-[${primary}] text-white px-8 py-4 rounded-full font-bold shadow-xl hover:opacity-90 transition">আমাদের কাজগুলো দেখুন</a>
     </section>
-    <section id="gallery" class="py-16 px-6 max-w-6xl mx-auto">
-        <h2 class="text-3xl font-extrabold text-center mb-12">আমাদের পোর্টফোলিও / গ্যালারি</h2>
+
+    <section id="gallery" class="py-20 px-6 max-w-6xl mx-auto">
+        <h2 class="text-3xl font-extrabold text-center mb-12">আমাদের পোর্টফোলিও ও গ্যালারি</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">${galleryHTML}</div>
     </section>
-    <section id="contact" class="bg-gray-900 text-white py-20 px-6 mt-16 text-center">
+
+    <section id="contact" class="bg-gray-900 text-white py-20 px-6 mt-20 text-center">
         <h2 class="text-3xl font-extrabold mb-4">আজই আমাদের সাথে যোগাযোগ করুন</h2>
-        <p class="text-gray-400 mb-8">যেকোনো প্রজেক্ট বা কাজের প্রয়োজনে সরাসরি কল বা ইমেইল করুন।</p>
-        <div class="flex justify-center gap-6 font-semibold">
-            <span><i class="fa-solid fa-phone text-[${primaryColor}] mr-2"></i> ${phone}</span>
-            <span><i class="fa-solid fa-envelope text-[${primaryColor}] mr-2"></i> ${email}</span>
+        <p class="text-gray-400 mb-8 max-w-xl mx-auto">যেকোনো সেবা বা প্রজেক্টের প্রয়োজনে সরাসরি কল বা ইমেইল করুন। আমরা প্রস্তুত আপনার সেবায়।</p>
+        <div class="flex flex-wrap justify-center gap-8 font-semibold text-lg">
+            <span><i class="fa-solid fa-phone text-[${primary}] mr-2"></i> ${phone}</span>
+            <span><i class="fa-solid fa-envelope text-[${primary}] mr-2"></i> ${email}</span>
         </div>
     </section>
+
     <footer class="bg-black text-gray-500 py-6 text-center text-sm">
         <p>© 2026 ${brand}. All rights reserved.</p>
     </footer>
 </body>
 </html>`;
 
-            // Render inside iframe
             const iframe = document.getElementById('previewFrame');
-            iframe.srcdoc = fullHTML;
+            iframe.srcdoc = templateHTML;
         }
 
         function downloadHTML() {
             const iframe = document.getElementById('previewFrame');
             const htmlContent = iframe.srcdoc;
             if(!htmlContent) {
-                alert('আগে প্রিভিউ জেনারেট করুন!');
+                alert('প্রিভিউ তৈরি হয়নি!');
                 return;
             }
             const blob = new Blob([htmlContent], { type: 'text/html' });
@@ -209,8 +210,8 @@
             document.body.removeChild(a);
         }
 
-        // Auto generate on load
-        window.onload = generateWebsite;
+        // Initialize preview on load
+        window.onload = updateLivePreview;
     </script>
 </body>
 </html>
