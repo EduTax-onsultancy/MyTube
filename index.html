@@ -21,16 +21,12 @@
     </script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Rembg / Browser background removal alternative -->
-    <script src="https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/dist/index.umd.js"></script>
     <style>
         @media print {
             body * { visibility: hidden; }
             #printArea, #printArea * { visibility: visible; }
             #printArea { position: absolute; left: 0; top: 0; width: 100%; display: flex; justify-content: center; align-items: center; background: white !important; }
         }
-        .spin { animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="bg-dark-900 text-gray-100 min-h-screen font-sans selection:bg-accent selection:text-black">
@@ -44,7 +40,7 @@
                 </div>
                 <h1 class="font-bold text-lg tracking-tight">Passport Studio <span class="text-accent">Pro</span></h1>
             </div>
-            <span class="text-xs px-3 py-1 bg-dark-700 border border-gray-700 rounded-full text-gray-400">GitHub Free Host</span>
+            <span class="text-xs px-3 py-1 bg-dark-700 border border-gray-700 rounded-full text-gray-400">100% Stable Studio</span>
         </div>
     </header>
 
@@ -71,15 +67,12 @@
                 <div class="bg-dark-800 border border-gray-800 rounded-2xl p-6 shadow-xl space-y-4">
                     <h2 class="text-base font-semibold mb-2 flex items-center gap-2">
                         <span class="w-6 h-6 rounded-full bg-accent text-black flex items-center justify-center text-xs font-bold">2</span>
-                        AI Background Removal & Color
+                        Background & Photo Adjustments
                     </h2>
 
-                    <button id="removeBgBtn" onclick="removeBackground()" class="w-full bg-dark-700 hover:bg-gray-700 text-gray-200 border border-gray-700 font-medium py-2.5 rounded-xl transition flex items-center justify-center gap-2 text-sm">
-                        <i class="fa-solid fa-wand-magic-sparkles text-accent"></i> <span id="bgBtnText">Auto Remove Background</span>
-                    </button>
-
-                    <div id="bgPalette" class="hidden pt-2">
-                        <label class="text-xs font-medium text-gray-400 block mb-2">Background Color</label>
+                    <!-- Background Color Palette -->
+                    <div>
+                        <label class="text-xs font-medium text-gray-400 block mb-2">Background / Canvas Color</label>
                         <div class="flex gap-3">
                             <button onclick="setBgColor('#ffffff')" class="w-8 h-8 rounded-full bg-white border-2 border-gray-400 shadow"></button>
                             <button onclick="setBgColor('#2563eb')" class="w-8 h-8 rounded-full bg-blue-600 shadow"></button>
@@ -166,7 +159,6 @@
     <!-- Script -->
     <script>
         let currentImage = null;
-        let originalFile = null;
         let copiesCount = 8;
         let bgColor = '#ffffff';
         let brightness = 100;
@@ -187,14 +179,12 @@
         imageInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
-                originalFile = file;
                 const reader = new FileReader();
                 reader.onload = (event) => {
                     const img = new Image();
                     img.onload = () => {
                         currentImage = img;
                         placeholderText.style.display = 'none';
-                        document.getElementById('bgPalette').classList.remove('hidden');
                         processAndRender();
                     };
                     img.src = event.target.result;
@@ -202,36 +192,6 @@
                 reader.readAsDataURL(file);
             }
         });
-
-        async function removeBackground() {
-            if (!originalFile) return;
-            const btn = document.getElementById('removeBgBtn');
-            const btnText = document.getElementById('bgBtnText');
-            btn.disabled = true;
-            btnText.innerHTML = '<i class="fa-solid fa-spinner spin mr-2"></i> AI Processing... (Wait 5s)';
-
-            try {
-                // Background removal model execution
-                const blob = await window.imglyRemoveBackground(originalFile);
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        currentImage = img;
-                        processAndRender();
-                        btn.disabled = false;
-                        btnText.innerText = 'Background Removed ✓';
-                    };
-                    img.src = event.target.result;
-                };
-                reader.readAsDataURL(blob);
-            } catch (err) {
-                console.error(err);
-                alert('Background removal took too long or failed. Try another clear image.');
-                btn.disabled = false;
-                btnText.innerText = 'Auto Remove Background';
-            }
-        }
 
         document.getElementById('brightnessRange').addEventListener('input', (e) => {
             brightness = e.target.value;
