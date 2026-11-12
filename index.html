@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="bn" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Passport Photo Studio Pro</title>
-    <!-- Tailwind CSS -->
+    <title>Studiozly — পাসপোর্ট ফটো ও প্রিন্ট স্টুডিও</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -13,7 +13,7 @@
                 extend: {
                     colors: {
                         dark: { 900: '#09090b', 800: '#121216', 700: '#1e1e24' },
-                        accent: '#a3e635'
+                        accent: '#2563eb'
                     }
                 }
             }
@@ -29,18 +29,18 @@
         }
     </style>
 </head>
-<body class="bg-dark-900 text-gray-100 min-h-screen font-sans selection:bg-accent selection:text-black">
+<body class="bg-dark-900 text-gray-100 min-h-screen font-sans selection:bg-accent selection:text-white">
 
-    <!-- Header -->
-    <header class="border-b border-gray-800 bg-dark-800/50 backdrop-blur sticky top-0 z-50">
+    <!-- Navbar -->
+    <header class="border-b border-gray-800 bg-dark-800/80 backdrop-blur sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="bg-accent text-black p-2 rounded-xl font-bold flex items-center justify-center w-10 h-10 shadow-lg">
+                <div class="bg-accent text-white p-2 rounded-xl font-bold flex items-center justify-center w-10 h-10 shadow-lg shadow-accent/20">
                     <i class="fa-solid fa-id-card"></i>
                 </div>
-                <h1 class="font-bold text-lg tracking-tight">Passport Studio <span class="text-accent">Pro</span></h1>
+                <h1 class="font-bold text-lg tracking-tight">Studiozly <span class="text-accent">Passport Studio</span></h1>
             </div>
-            <span class="text-xs px-3 py-1 bg-dark-700 border border-gray-700 rounded-full text-gray-400">100% Stable Studio</span>
+            <span class="text-xs px-3 py-1 bg-dark-700 border border-gray-700 rounded-full text-gray-400">মোবাইল ফ্রেন্ডলি</span>
         </div>
     </header>
 
@@ -48,106 +48,113 @@
     <main class="max-w-7xl mx-auto px-4 py-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
-            <!-- Left Panel -->
+            <!-- Left Control Panel -->
             <div class="lg:col-span-5 space-y-6">
-                <!-- Step 1 -->
+                <!-- Step 1: Upload -->
                 <div class="bg-dark-800 border border-gray-800 rounded-2xl p-6 shadow-xl">
                     <h2 class="text-base font-semibold mb-4 flex items-center gap-2">
-                        <span class="w-6 h-6 rounded-full bg-accent text-black flex items-center justify-center text-xs font-bold">1</span>
-                        Upload Photo
+                        <span class="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold">১</span>
+                        ছবি আপলোড করুন
                     </h2>
                     <label class="border-2 border-dashed border-gray-700 hover:border-accent transition rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer bg-dark-900/50">
                         <i class="fa-solid fa-cloud-arrow-up text-3xl text-gray-400 mb-2"></i>
-                        <span class="text-sm font-medium text-gray-300">Click to upload photo</span>
+                        <span class="text-sm font-medium text-gray-300">ক্লিক করে ছবি সিলেক্ট করুন</span>
+                        <span class="text-xs text-gray-500 mt-1">JPG, PNG ফরম্যাট সমর্থিত</span>
                         <input type="file" id="imageInput" accept="image/*" class="hidden">
                     </label>
                 </div>
 
-                <!-- Step 2 -->
+                <!-- Step 2: Controls & Editing -->
                 <div class="bg-dark-800 border border-gray-800 rounded-2xl p-6 shadow-xl space-y-4">
                     <h2 class="text-base font-semibold mb-2 flex items-center gap-2">
-                        <span class="w-6 h-6 rounded-full bg-accent text-black flex items-center justify-center text-xs font-bold">2</span>
-                        Background & Photo Adjustments
+                        <span class="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold">২</span>
+                        ব্যাকগ্রাউন্ড ও কালার এডিট
                     </h2>
 
                     <!-- Background Color Palette -->
                     <div>
-                        <label class="text-xs font-medium text-gray-400 block mb-2">Background / Canvas Color</label>
+                        <label class="text-xs font-medium text-gray-400 block mb-2">ব্যাকগ্রাউন্ড কালার</label>
                         <div class="flex gap-3">
-                            <button onclick="setBgColor('#ffffff')" class="w-8 h-8 rounded-full bg-white border-2 border-gray-400 shadow"></button>
-                            <button onclick="setBgColor('#2563eb')" class="w-8 h-8 rounded-full bg-blue-600 shadow"></button>
-                            <button onclick="setBgColor('#dc2626')" class="w-8 h-8 rounded-full bg-red-600 shadow"></button>
-                            <button onclick="setBgColor('#059669')" class="w-8 h-8 rounded-full bg-emerald-600 shadow"></button>
-                            <button onclick="setBgColor('#1e293b')" class="w-8 h-8 rounded-full bg-slate-800 shadow"></button>
+                            <button onclick="setBgColor('#ffffff')" class="w-8 h-8 rounded-full bg-white border-2 border-gray-400 focus:scale-110 transition shadow" title="সাদা"></button>
+                            <button onclick="setBgColor('#2563eb')" class="w-8 h-8 rounded-full bg-blue-600 border-2 border-transparent focus:scale-110 transition shadow" title="নীল"></button>
+                            <button onclick="setBgColor('#dc2626')" class="w-8 h-8 rounded-full bg-red-600 border-2 border-transparent focus:scale-110 transition shadow" title="লাল"></button>
+                            <button onclick="setBgColor('#059669')" class="w-8 h-8 rounded-full bg-emerald-600 border-2 border-transparent focus:scale-110 transition shadow" title="সবুজ"></button>
+                            <button onclick="setBgColor('#1e293b')" class="w-8 h-8 rounded-full bg-slate-800 border-2 border-transparent focus:scale-110 transition shadow" title="স্লেট"></button>
                         </div>
                     </div>
 
+                    <!-- Sliders -->
                     <div class="space-y-3 pt-2 border-t border-gray-700/50">
                         <div>
                             <div class="flex justify-between text-xs text-gray-400 mb-1">
-                                <span>Brightness</span>
+                                <span>ব্রাইটনেস (Brightness)</span>
                                 <span id="brightVal">100%</span>
                             </div>
-                            <input type="range" id="brightnessRange" min="50" max="150" value="100" class="w-full accent-accent bg-dark-900 rounded-lg h-2">
+                            <input type="range" id="brightnessRange" min="50" max="150" value="100" class="w-full accent-accent bg-dark-900 rounded-lg h-2 cursor-pointer">
                         </div>
                         <div>
                             <div class="flex justify-between text-xs text-gray-400 mb-1">
-                                <span>Contrast</span>
+                                <span>কনট্রাস্ট (Contrast)</span>
                                 <span id="contrastVal">100%</span>
                             </div>
-                            <input type="range" id="contrastRange" min="50" max="150" value="100" class="w-full accent-accent bg-dark-900 rounded-lg h-2">
+                            <input type="range" id="contrastRange" min="50" max="150" value="100" class="w-full accent-accent bg-dark-900 rounded-lg h-2 cursor-pointer">
                         </div>
                     </div>
                 </div>
 
-                <!-- Step 3 -->
+                <!-- Step 3: Paper Size & Copies Config -->
                 <div class="bg-dark-800 border border-gray-800 rounded-2xl p-6 shadow-xl space-y-4">
                     <h2 class="text-base font-semibold mb-2 flex items-center gap-2">
-                        <span class="w-6 h-6 rounded-full bg-accent text-black flex items-center justify-center text-xs font-bold">3</span>
-                        Paper Size & Copies
+                        <span class="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold">৩</span>
+                        পেপার সাইজ ও কপির সংখ্যা
                     </h2>
+
+                    <!-- Paper Size Selector -->
                     <div>
-                        <label class="text-xs font-medium text-gray-400 block mb-1">Paper Size</label>
-                        <select id="paperSizeSelect" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-sm text-gray-200">
-                            <option value="4x6">4 x 6 inch Photo Paper</option>
-                            <option value="5x7">5 x 7 inch Photo Paper</option>
-                            <option value="a4">A4 Sheet</option>
+                        <label class="text-xs font-medium text-gray-400 block mb-1">কাগজের সাইজ</label>
+                        <select id="paperSizeSelect" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-accent">
+                            <option value="4x6">4 x 6 ইঞ্চি (স্ট্যান্ডার্ড ফটো পেপার)</option>
+                            <option value="5x7">5 x 7 ইঞ্চি ফটো পেপার</option>
+                            <option value="a4">A4 সাইজ পেপার</option>
                         </select>
                     </div>
 
+                    <!-- Copies Adjuster -->
                     <div class="flex items-center justify-between bg-dark-900 p-3 rounded-xl border border-gray-800">
-                        <span class="text-sm font-medium">Total Copies:</span>
+                        <span class="text-sm font-medium">মোট কপি সংখ্যা:</span>
                         <div class="flex items-center gap-3">
-                            <button onclick="adjustCopies(-1)" class="w-8 h-8 bg-dark-700 hover:bg-gray-700 rounded-lg font-bold">-</button>
+                            <button onclick="adjustCopies(-1)" class="w-8 h-8 bg-dark-700 hover:bg-gray-700 rounded-lg flex items-center justify-center font-bold transition"><i class="fa-solid fa-minus text-xs"></i></button>
                             <span id="copyCount" class="font-bold text-base w-6 text-center">8</span>
-                            <button onclick="adjustCopies(1)" class="w-8 h-8 bg-dark-700 hover:bg-gray-700 rounded-lg font-bold">+</button>
+                            <button onclick="adjustCopies(1)" class="w-8 h-8 bg-dark-700 hover:bg-gray-700 rounded-lg flex items-center justify-center font-bold transition"><i class="fa-solid fa-plus text-xs"></i></button>
                         </div>
                     </div>
 
-                    <button onclick="window.print()" class="w-full bg-accent hover:bg-lime-500 text-black font-bold py-3 rounded-xl transition shadow-lg">
-                        <i class="fa-solid fa-print"></i> Print / Save PDF
+                    <button onclick="window.print()" class="w-full bg-accent hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-accent/20">
+                        <i class="fa-solid fa-print"></i> প্রিন্ট বা PDF সেভ করুন
                     </button>
                 </div>
             </div>
 
-            <!-- Right Panel -->
+            <!-- Right Preview & Output Panel -->
             <div class="lg:col-span-7 flex flex-col gap-6">
+                <!-- Single Passport Crop Preview -->
                 <div class="bg-dark-800 border border-gray-800 rounded-2xl p-6 shadow-xl flex flex-col items-center">
-                    <h3 class="text-sm font-medium text-gray-400 mb-4 self-start">Single Passport Preview (3.5cm x 4.5cm)</h3>
+                    <h3 class="text-sm font-medium text-gray-400 mb-4 self-start">সিঙ্গেল পাসপোর্ট প্রিভিউ (3.5cm x 4.5cm)</h3>
                     <div class="relative bg-dark-900 border border-gray-700 rounded-xl overflow-hidden p-2 flex items-center justify-center" style="width: 210px; height: 270px;">
                         <canvas id="passportCanvas" class="w-full h-full object-cover rounded-lg"></canvas>
                         <div id="placeholderText" class="absolute text-center text-xs text-gray-500 p-4">
                             <i class="fa-regular fa-image text-2xl mb-2 block"></i>
-                            Upload a photo
+                            ছবি আপলোড করুন
                         </div>
                     </div>
                 </div>
 
+                <!-- Print Sheet Layout Preview -->
                 <div class="bg-dark-800 border border-gray-800 rounded-2xl p-6 shadow-xl flex-1 flex flex-col">
-                    <h3 class="text-sm font-medium text-gray-400 mb-4">Print Grid Preview (<span id="paperNameDisplay">4 x 6 inch</span>)</h3>
+                    <h3 class="text-sm font-medium text-gray-400 mb-4">প্রিন্ট শিট লেআউট প্রিভিউ (<span id="paperNameDisplay">4 x 6 ইঞ্চি</span>)</h3>
                     <div id="printArea" class="bg-white rounded-xl p-4 shadow-inner flex-1 overflow-auto min-h-[320px] flex items-center justify-center">
                         <div id="gridContainer" class="grid grid-cols-4 gap-2 w-fit">
-                            <div class="text-gray-400 text-xs text-center col-span-4 py-16">Sheet preview will appear here</div>
+                            <div class="text-gray-400 text-xs text-center col-span-4 py-16">এখানে শিট প্রিভিউ দেখা যাবে</div>
                         </div>
                     </div>
                 </div>
@@ -156,7 +163,7 @@
         </div>
     </main>
 
-    <!-- Script -->
+    <!-- JavaScript Application Logic -->
     <script>
         let currentImage = null;
         let copiesCount = 8;
@@ -208,13 +215,13 @@
         paperSizeSelect.addEventListener('change', (e) => {
             const val = e.target.value;
             if (val === '4x6') {
-                paperNameDisplay.innerText = '4 x 6 inch';
+                paperNameDisplay.innerText = '4 x 6 ইঞ্চি';
                 gridContainer.style.gridTemplateColumns = 'repeat(4, minmax(0, 1fr))';
             } else if (val === '5x7') {
-                paperNameDisplay.innerText = '5 x 7 inch';
+                paperNameDisplay.innerText = '5 x 7 ইঞ্চি';
                 gridContainer.style.gridTemplateColumns = 'repeat(5, minmax(0, 1fr))';
             } else {
-                paperNameDisplay.innerText = 'A4 Size';
+                paperNameDisplay.innerText = 'A4 সাইজ';
                 gridContainer.style.gridTemplateColumns = 'repeat(6, minmax(0, 1fr))';
             }
             if (currentImage) renderGrid();
