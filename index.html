@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudioX — Digital Design & Web Development Agency</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            --bg-dark: #09090b;
+            --card-bg: #121215;
+            --border-color: #27272a;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --text-main: #fafafa;
+            --text-muted: #a1a1aa;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4, .navbar-brand {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(9, 9, 11, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-link {
+            color: var(--text-muted) !important;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text-main) !important;
+        }
+
+        /* Buttons */
+        .btn-primary-custom {
+            background-color: var(--text-main);
+            color: var(--bg-dark);
+            font-weight: 600;
+            border-radius: 50px;
+            padding: 12px 28px;
+            border: none;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .btn-primary-custom:hover {
+            background-color: #e4e4e7;
+            color: var(--bg-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-custom {
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 50px;
+            padding: 12px 28px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-outline-custom:hover {
+            border-color: var(--text-main);
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 140px 0 90px;
+            position: relative;
+        }
+
+        .badge-pill {
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 24px;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #fff 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Cards & Sections */
+        .section-padding {
+            padding: 90px 0;
+        }
+
+        .custom-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 32px;
+            height: 100%;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .custom-card:hover {
+            transform: translateY(-5px);
+            border-color: #3f3f46;
+        }
+
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+        }
+
+        /* Portfolio Card */
+        .work-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .work-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .work-img-placeholder {
+            height: 260px;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.7);
+            font-weight: 600;
+            font-size: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .work-img-placeholder.alt-1 {
+            background: linear-gradient(135deg, #064e3b 0%, #047857 100%);
+        }
+
+        .work-img-placeholder.alt-2 {
+            background: linear-gradient(135deg, #4c1d95 0%, #6d28d9 100%);
+        }
+
+        .tag-badge {
+            font-size: 0.75rem;
+            background: #27272a;
+            color: #d4d4d8;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        /* Pricing */
+        .pricing-highlight {
+            border-color: var(--accent);
+            position: relative;
+        }
+
+        /* FAQ Accordion */
+        .accordion-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            margin-bottom: 12px;
+            border-radius: 14px !important;
+            overflow: hidden;
+        }
+
+        .accordion-button {
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            font-weight: 600;
+            padding: 20px 24px;
+            box-shadow: none !important;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: #18181b;
+            color: var(--text-main);
+        }
+
+        .accordion-button::after {
+            filter: invert(1);
+        }
+
+        .accordion-body {
+            color: var(--text-muted);
+            padding: 0 24px 20px;
+            background-color: #18181b;
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: all 0.7s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 50px 0 30px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand text-white fw-bold fs-4" href="#">Studio<span style="color: #818cf8;">X</span>.</a>
+            <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="bi bi-list fs-2"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto gap-lg-4">
+                    <li class="nav-item"><a class="nav-link" href="#work">Work</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#pricing">Pricing</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+                </ul>
+                <div class="d-flex mt-3 mt-lg-0">
+                    <a href="#contact" class="btn btn-primary-custom btn-sm px-4 py-2">Book a Call</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <div class="badge-pill">
+                <i class="bi bi-circle-fill text-success me-2" style="font-size: 8px;"></i> Available for new projects
+            </div>
+            <h1 class="hero-title gradient-text mb-4 mx-auto" style="max-width: 850px;">
+                We build high-converting websites & digital brands.
+            </h1>
+            <p class="lead mb-5 mx-auto" style="color: var(--text-muted); max-width: 600px;">
+                Design, development, and branding partner for ambitious startups and modern businesses. Fast turnaround, zero fluff.
+            </p>
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <a href="#pricing" class="btn btn-primary-custom">See Plans & Pricing</a>
+                <a href="#work" class="btn btn-outline-custom">View Recent Work</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Work / Portfolio -->
+    <section id="work" class="section-padding">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-end mb-5 reveal">
+                <div>
+                    <p class="text-uppercase small fw-bold" style="color: #818cf8; letter-spacing: 1px;">Selected Work</p>
+                    <h2 class="fw-bold mb-0">Projects we're proud of</h2>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Project 1 -->
+                <div class="col-md-4 reveal">
+                    <div class="work-card">
+                        <div class="work-img-placeholder">
+                            <span>Fintech Dashboard UI</span>
+                        </div>
+                        <div class="p-4">
+                            <div class="d-flex gap-2 mb-3">
+                                <span class="tag-badge">UI/UX Design</span>
+                                <span class="tag-badge">Web App</span>
+                            </div>
+                            <h4 class="fw-bold mb-2">NovaPay Finance</h4>
+                            <p class="small mb-3" style="color: var(--text-muted);">Complete brand overhaul and web platform design increasing user signups by 42%.</p>
+                            <a href="#contact" class="text-white text-decoration-none small fw-semibold">View Case Study <i class="bi bi-arrow-up-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="col-md-4 reveal">
+                    <div class="work-card">
+                        <div class="work-img-placeholder alt-1">
+                            <span>SaaS Landing Page</span>
+                        </div>
+                        <div class="p-4">
+                            <div class="d-flex gap-2 mb-3">
+                                <span class="tag-badge">Web Design</span>
+                                <span class="tag-badge">Development</span>
+                            </div>
+                            <h4 class="fw-bold mb-2">CloudFlow AI</h4>
+                            <p class="small mb-3" style="color: var(--text-muted);">High-speed marketing website built with modern animations and responsive layout.</p>
+                            <a href="#contact" class="text-white text-decoration-none small fw-semibold">View Case Study <i class="bi bi-arrow-up-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="col-md-4 reveal">
+                    <div class="work-card">
+                        <div class="work-img-placeholder alt-2">
+                            <span>E-Commerce Brand</span>
+                        </div>
+                        <div class="p-4">
+                            <div class="d-flex gap-2 mb-3">
+                                <span class="tag-badge">Branding</span>
+                                <span class="tag-badge">Storefront</span>
+                            </div>
+                            <h4 class="fw-bold mb-2">Kroma Studio</h4>
+                            <p class="small mb-3" style="color: var(--text-muted);">Minimalist digital storefront and visual identity for a lifestyle hardware brand.</p>
+                            <a href="#contact" class="text-white text-decoration-none small fw-semibold">View Case Study <i class="bi bi-arrow-up-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section-padding">
+        <div class="container">
+            <div class="text-center mb-5 reveal">
+                <p class="text-uppercase small fw-bold" style="color: #818cf8; letter-spacing: 1px;">Capabilities</p>
+                <h2 class="fw-bold">Everything you need to launch & scale</h2>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3 reveal">
+                    <div class="custom-card">
+                        <div class="icon-box"><i class="bi bi-layers text-white"></i></div>
+                        <h5 class="fw-bold mb-2">UI/UX Design</h5>
+                        <p class="small mb-0" style="color: var(--text-muted);">Clean, user-centric interfaces for web and mobile apps designed in Figma.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 reveal">
+                    <div class="custom-card">
+                        <div class="icon-box"><i class="bi bi-code-slash text-white"></i></div>
+                        <h5 class="fw-bold mb-2">Web Development</h5>
+                        <p class="small mb-0" style="color: var(--text-muted);">Fast, SEO-friendly, and responsive websites built with clean modern code.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 reveal">
+                    <div class="custom-card">
+                        <div class="icon-box"><i class="bi bi-stars text-white"></i></div>
+                        <h5 class="fw-bold mb-2">Brand Identity</h5>
+                        <p class="small mb-0" style="color: var(--text-muted);">Logos, typography, color systems, and brand guidelines that stand out.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 reveal">
+                    <div class="custom-card">
+                        <div class="icon-box"><i class="bi bi-lightning-charge text-white"></i></div>
+                        <h5 class="fw-bold mb-2">Speed & SEO</h5>
+                        <p class="small mb-0" style="color: var(--text-muted);">Performance optimization to ensure instant loading on mobile and desktop.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="section-padding">
+        <div class="container">
+            <div class="text-center mb-5 reveal">
+                <p class="text-uppercase small fw-bold" style="color: #818cf8; letter-spacing: 1px;">Transparent Pricing</p>
+                <h2 class="fw-bold">Simple, predictable packages</h2>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                <!-- Plan 1 -->
+                <div class="col-lg-5 reveal">
+                    <div class="custom-card d-flex flex-column justify-content-between">
+                        <div>
+                            <span class="tag-badge mb-3 d-inline-block">One-Time Project</span>
+                            <h3 class="fw-bold">Landing Page Sprint</h3>
+                            <p class="small mb-4" style="color: var(--text-muted);">Ideal for startups launching a new product or service fast.</p>
+                            <h2 class="fw-bold mb-4">₹25,000 <span class="fs-6 fw-normal text-secondary">/ project</span></h2>
+                            <ul class="list-unstyled d-flex flex-column gap-3 mb-5 small">
+                                <li><i class="bi bi-check2 text-success me-2"></i> Custom Design & Copy Structure</li>
+                                <li><i class="bi bi-check2 text-success me-2"></i> Mobile-First Responsive Build</li>
+                                <li><i class="bi bi-check2 text-success me-2"></i> Delivered in 7 Days</li>
+                                <li><i class="bi bi-check2 text-success me-2"></i> 2 Rounds of Revisions</li>
+                            </ul>
+                        </div>
+                        <a href="#contact" class="btn btn-outline-custom w-100 text-center">Get Started</a>
+                    </div>
+                </div>
+
+                <!-- Plan 2 -->
+                <div class="col-lg-5 reveal">
+                    <div class="custom-card pricing-highlight d-flex flex-column justify-content-between">
+                        <div>
+                            <span class="badge-pill mb-3">Most Popular</span>
+                            <h3 class="fw-bold">Full Website + Brand</h3>
+                            <p class="small mb-4" style="color: var(--text-muted);">Complete multi-page website with custom interactions and branding.</p>
+                            <h2 class="fw-bold mb-4">₹60,000 <span class="fs-6 fw-normal text-secondary">/ project</span></h2>
+                            <ul class="list-unstyled d-flex flex-column gap-3 mb-5 small">
+                                <li><i class="bi bi-check2 text-success me-2"></i> Up to 6 Custom Pages</li>
+                                <li><i class="bi bi-check2 text-success me-2"></i> Logo & Visual Identity Kit</li>
+                                <li><i class="bi bi-check2 text-success me-2"></i> Smooth Scroll & Hover Animations</li>
+                                <li><i class="bi bi-check2 text-success me-2"></i> 30 Days Post-Launch Support</li>
+                            </ul>
+                        </div>
+                        <a href="#contact" class="btn btn-primary-custom w-100 text-center">Book Discovery Call</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="section-padding">
+        <div class="container" style="max-width: 800px;">
+            <div class="text-center mb-5 reveal">
+                <h2 class="fw-bold">Frequently Asked Questions</h2>
+            </div>
+
+            <div class="accordion reveal" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#q1">
+                            How long does a typical website take?
+                        </button>
+                    </h2>
+                    <div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            A single landing page takes around 5–7 days, while a complete multi-page website takes 2–3 weeks depending on feedback speed.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2">
+                            Do you provide hosting and domain setup?
+                        </button>
+                    </h2>
+                    <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes! We can deploy your static site for free on GitHub Pages, Vercel, or Netlify and connect your custom domain at zero extra cost.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q3">
+                            What do you need from me to get started?
+                        </button>
+                    </h2>
+                    <div id="q3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Just a quick brief about your business, target audience, and any reference websites you like. We handle the rest.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section-padding">
+        <div class="container">
+            <div class="custom-card text-center p-5 reveal" style="background: linear-gradient(180deg, #18181b 0%, #09090b 100%);">
+                <h2 class="fw-bold mb-3">Ready to build something great?</h2>
+                <p class="mb-4 mx-auto" style="color: var(--text-muted); max-width: 500px;">
+                    Drop your project details below or message directly on WhatsApp to get a free quote within 24 hours.
+                </p>
+
+                <form id="contactForm" class="mx-auto text-start" style="max-width: 500px;">
+                    <div class="mb-3">
+                        <input type="text" class="form-control bg-dark text-white border-secondary py-2" placeholder="Your Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" class="form-control bg-dark text-white border-secondary py-2" placeholder="Your Email" required>
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control bg-dark text-white border-secondary" rows="3" placeholder="Tell us about your project..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary-custom w-100">Send Inquiry</button>
+                    <p id="formStatus" class="text-success small text-center mt-3 d-none">Thanks! Your message has been received.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+            <div class="fw-bold text-white">Studio<span style="color: #818cf8;">X</span>.</div>
+            <div class="small">© 2026 StudioX Agency. All rights reserved.</div>
+            <div class="d-flex gap-3">
+                <a href="#" class="text-secondary"><i class="bi bi-twitter-x"></i></a>
+                <a href="#" class="text-secondary"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="text-secondary"><i class="bi bi-github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Scroll Reveal Animation
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal");
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 80;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Trigger on load
+
+        // Simple Form Feedback (Static Site Friendly)
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('formStatus').classList.remove('d-none');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
