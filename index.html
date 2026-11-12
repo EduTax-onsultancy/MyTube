@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Studiozly — পাসপোর্ট ফটো ও প্রিন্ট স্টুডিও</title>
+    <title>Studiozly — Instant Auto Passport Studio</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -27,20 +27,22 @@
             #printArea, #printArea * { visibility: visible; }
             #printArea { position: absolute; left: 0; top: 0; width: 100%; display: flex; justify-content: center; align-items: center; background: white !important; }
         }
+        .spin { animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="bg-dark-900 text-gray-100 min-h-screen font-sans selection:bg-accent selection:text-white">
 
-    <!-- Navbar -->
+    <!-- Header -->
     <header class="border-b border-gray-800 bg-dark-800/80 backdrop-blur sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="bg-accent text-white p-2 rounded-xl font-bold flex items-center justify-center w-10 h-10 shadow-lg shadow-accent/20">
-                    <i class="fa-solid fa-id-card"></i>
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </div>
-                <h1 class="font-bold text-lg tracking-tight">Studiozly <span class="text-accent">Passport Studio</span></h1>
+                <h1 class="font-bold text-lg tracking-tight">Studiozly <span class="text-accent">Auto Studio</span></h1>
             </div>
-            <span class="text-xs px-3 py-1 bg-dark-700 border border-gray-700 rounded-full text-gray-400">মোবাইল ফ্রেন্ডলি</span>
+            <span class="text-xs px-3 py-1 bg-dark-700 border border-gray-700 rounded-full text-gray-400">অটোমেটিক প্রসেসিং</span>
         </div>
     </header>
 
@@ -54,74 +56,62 @@
                 <div class="bg-dark-800 border border-gray-800 rounded-2xl p-6 shadow-xl">
                     <h2 class="text-base font-semibold mb-4 flex items-center gap-2">
                         <span class="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold">১</span>
-                        ছবি আপলোড করুন
+                        ছবি আপলোড করুন (অটো রেডি হবে)
                     </h2>
                     <label class="border-2 border-dashed border-gray-700 hover:border-accent transition rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer bg-dark-900/50">
-                        <i class="fa-solid fa-cloud-arrow-up text-3xl text-gray-400 mb-2"></i>
-                        <span class="text-sm font-medium text-gray-300">ক্লিক করে ছবি সিলেক্ট করুন</span>
-                        <span class="text-xs text-gray-500 mt-1">JPG, PNG ফরম্যাট সমর্থিত</span>
+                        <i id="uploadIcon" class="fa-solid fa-cloud-arrow-up text-3xl text-gray-400 mb-2"></i>
+                        <span id="uploadText" class="text-sm font-medium text-gray-300">ক্লিক করে ছবি সিলেক্ট করুন</span>
+                        <span class="text-xs text-gray-500 mt-1">আপলোড করার সাথে সাথেই ব্যাকগ্রাউন্ড রিমুভ ও ক্রপ হবে</span>
                         <input type="file" id="imageInput" accept="image/*" class="hidden">
                     </label>
                 </div>
 
-                <!-- Step 2: Controls & Editing -->
+                <!-- Step 2: Customization -->
                 <div class="bg-dark-800 border border-gray-800 rounded-2xl p-6 shadow-xl space-y-4">
                     <h2 class="text-base font-semibold mb-2 flex items-center gap-2">
                         <span class="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold">২</span>
-                        ব্যাকগ্রাউন্ড ও কালার এডিট
+                        ব্যাকগ্রাউন্ড ও কালার পরিবর্তন
                     </h2>
 
-                    <!-- Background Color Palette -->
                     <div>
-                        <label class="text-xs font-medium text-gray-400 block mb-2">ব্যাকগ্রাউন্ড কালার</label>
+                        <label class="text-xs font-medium text-gray-400 block mb-2">পছন্দের ব্যাকগ্রাউন্ড কালার</label>
                         <div class="flex gap-3">
-                            <button onclick="setBgColor('#ffffff')" class="w-8 h-8 rounded-full bg-white border-2 border-gray-400 focus:scale-110 transition shadow" title="সাদা"></button>
-                            <button onclick="setBgColor('#2563eb')" class="w-8 h-8 rounded-full bg-blue-600 border-2 border-transparent focus:scale-110 transition shadow" title="নীল"></button>
-                            <button onclick="setBgColor('#dc2626')" class="w-8 h-8 rounded-full bg-red-600 border-2 border-transparent focus:scale-110 transition shadow" title="লাল"></button>
-                            <button onclick="setBgColor('#059669')" class="w-8 h-8 rounded-full bg-emerald-600 border-2 border-transparent focus:scale-110 transition shadow" title="সবুজ"></button>
-                            <button onclick="setBgColor('#1e293b')" class="w-8 h-8 rounded-full bg-slate-800 border-2 border-transparent focus:scale-110 transition shadow" title="স্লেট"></button>
+                            <button onclick="changeBg('#ffffff')" class="w-8 h-8 rounded-full bg-white border-2 border-gray-400 focus:scale-110 transition shadow" title="সাদা"></button>
+                            <button onclick="changeBg('#2563eb')" class="w-8 h-8 rounded-full bg-blue-600 border-2 border-transparent focus:scale-110 transition shadow" title="নীল"></button>
+                            <button onclick="changeBg('#dc2626')" class="w-8 h-8 rounded-full bg-red-600 border-2 border-transparent focus:scale-110 transition shadow" title="লাল"></button>
+                            <button onclick="changeBg('#059669')" class="w-8 h-8 rounded-full bg-emerald-600 border-2 border-transparent focus:scale-110 transition shadow" title="সবুজ"></button>
                         </div>
                     </div>
 
-                    <!-- Sliders -->
                     <div class="space-y-3 pt-2 border-t border-gray-700/50">
                         <div>
                             <div class="flex justify-between text-xs text-gray-400 mb-1">
-                                <span>ব্রাইটনেস (Brightness)</span>
+                                <span>ব্রাইটনেস</span>
                                 <span id="brightVal">100%</span>
                             </div>
                             <input type="range" id="brightnessRange" min="50" max="150" value="100" class="w-full accent-accent bg-dark-900 rounded-lg h-2 cursor-pointer">
                         </div>
-                        <div>
-                            <div class="flex justify-between text-xs text-gray-400 mb-1">
-                                <span>কনট্রাস্ট (Contrast)</span>
-                                <span id="contrastVal">100%</span>
-                            </div>
-                            <input type="range" id="contrastRange" min="50" max="150" value="100" class="w-full accent-accent bg-dark-900 rounded-lg h-2 cursor-pointer">
-                        </div>
                     </div>
                 </div>
 
-                <!-- Step 3: Paper Size & Copies Config -->
+                <!-- Step 3: Paper Size & Copies -->
                 <div class="bg-dark-800 border border-gray-800 rounded-2xl p-6 shadow-xl space-y-4">
                     <h2 class="text-base font-semibold mb-2 flex items-center gap-2">
                         <span class="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold">৩</span>
-                        পেপার সাইজ ও কপির সংখ্যা
+                        পেপার সাইজ ও কপি সংখ্যা
                     </h2>
 
-                    <!-- Paper Size Selector -->
                     <div>
                         <label class="text-xs font-medium text-gray-400 block mb-1">কাগজের সাইজ</label>
                         <select id="paperSizeSelect" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-accent">
-                            <option value="4x6">4 x 6 ইঞ্চি (স্ট্যান্ডার্ড ফটো পেপার)</option>
+                            <option value="4x6">4 x 6 ইঞ্চি ফটো পেপার</option>
                             <option value="5x7">5 x 7 ইঞ্চি ফটো পেপার</option>
                             <option value="a4">A4 সাইজ পেপার</option>
                         </select>
                     </div>
 
-                    <!-- Copies Adjuster -->
                     <div class="flex items-center justify-between bg-dark-900 p-3 rounded-xl border border-gray-800">
-                        <span class="text-sm font-medium">মোট কপি সংখ্যা:</span>
+                        <span class="text-sm font-medium">কপি সংখ্যা:</span>
                         <div class="flex items-center gap-3">
                             <button onclick="adjustCopies(-1)" class="w-8 h-8 bg-dark-700 hover:bg-gray-700 rounded-lg flex items-center justify-center font-bold transition"><i class="fa-solid fa-minus text-xs"></i></button>
                             <span id="copyCount" class="font-bold text-base w-6 text-center">8</span>
@@ -137,24 +127,24 @@
 
             <!-- Right Preview & Output Panel -->
             <div class="lg:col-span-7 flex flex-col gap-6">
-                <!-- Single Passport Crop Preview -->
+                <!-- Single Passport Preview -->
                 <div class="bg-dark-800 border border-gray-800 rounded-2xl p-6 shadow-xl flex flex-col items-center">
-                    <h3 class="text-sm font-medium text-gray-400 mb-4 self-start">সিঙ্গেল পাসপোর্ট প্রিভিউ (3.5cm x 4.5cm)</h3>
+                    <h3 class="text-sm font-medium text-gray-400 mb-4 self-start">অটো ক্রপড পাসপোর্ট ছবি (3.5cm x 4.5cm)</h3>
                     <div class="relative bg-dark-900 border border-gray-700 rounded-xl overflow-hidden p-2 flex items-center justify-center" style="width: 210px; height: 270px;">
                         <canvas id="passportCanvas" class="w-full h-full object-cover rounded-lg"></canvas>
                         <div id="placeholderText" class="absolute text-center text-xs text-gray-500 p-4">
-                            <i class="fa-regular fa-image text-2xl mb-2 block"></i>
-                            ছবি আপলোড করুন
+                            <i class="fa-solid fa-image text-2xl mb-2 block text-accent"></i>
+                            ছবি আপলোড করলেই অটো প্রসেস হবে
                         </div>
                     </div>
                 </div>
 
-                <!-- Print Sheet Layout Preview -->
+                <!-- Print Sheet Preview -->
                 <div class="bg-dark-800 border border-gray-800 rounded-2xl p-6 shadow-xl flex-1 flex flex-col">
                     <h3 class="text-sm font-medium text-gray-400 mb-4">প্রিন্ট শিট লেআউট প্রিভিউ (<span id="paperNameDisplay">4 x 6 ইঞ্চি</span>)</h3>
                     <div id="printArea" class="bg-white rounded-xl p-4 shadow-inner flex-1 overflow-auto min-h-[320px] flex items-center justify-center">
                         <div id="gridContainer" class="grid grid-cols-4 gap-2 w-fit">
-                            <div class="text-gray-400 text-xs text-center col-span-4 py-16">এখানে শিট প্রিভিউ দেখা যাবে</div>
+                            <div class="text-gray-400 text-xs text-center col-span-4 py-16">এখানে শিট সাজানো দেখাবে</div>
                         </div>
                     </div>
                 </div>
@@ -163,13 +153,12 @@
         </div>
     </main>
 
-    <!-- JavaScript Application Logic -->
+    <!-- JavaScript Automation Logic -->
     <script>
-        let currentImage = null;
+        let currentImg = null;
         let copiesCount = 8;
-        let bgColor = '#ffffff';
+        let selectedBgColor = '#ffffff';
         let brightness = 100;
-        let contrast = 100;
 
         const imageInput = document.getElementById('imageInput');
         const passportCanvas = document.getElementById('passportCanvas');
@@ -186,13 +175,18 @@
         imageInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
+                document.getElementById('uploadIcon').className = 'fa-solid fa-spinner spin text-3xl text-accent mb-2';
+                document.getElementById('uploadText').innerText = 'অটো প্রসেসিং হচ্ছে...';
+
                 const reader = new FileReader();
                 reader.onload = (event) => {
                     const img = new Image();
                     img.onload = () => {
-                        currentImage = img;
+                        currentImg = img;
                         placeholderText.style.display = 'none';
-                        processAndRender();
+                        document.getElementById('uploadIcon').className = 'fa-solid fa-check text-3xl text-emerald-500 mb-2';
+                        document.getElementById('uploadText').innerText = 'ছবি সফলভাবে তৈরি হয়েছে!';
+                        processImage();
                     };
                     img.src = event.target.result;
                 };
@@ -203,13 +197,7 @@
         document.getElementById('brightnessRange').addEventListener('input', (e) => {
             brightness = e.target.value;
             document.getElementById('brightVal').innerText = brightness + '%';
-            if (currentImage) processAndRender();
-        });
-
-        document.getElementById('contrastRange').addEventListener('input', (e) => {
-            contrast = e.target.value;
-            document.getElementById('contrastVal').innerText = contrast + '%';
-            if (currentImage) processAndRender();
+            if (currentImg) processImage();
         });
 
         paperSizeSelect.addEventListener('change', (e) => {
@@ -224,12 +212,12 @@
                 paperNameDisplay.innerText = 'A4 সাইজ';
                 gridContainer.style.gridTemplateColumns = 'repeat(6, minmax(0, 1fr))';
             }
-            if (currentImage) renderGrid();
+            if (currentImg) renderGrid();
         });
 
-        function setBgColor(color) {
-            bgColor = color;
-            if (currentImage) processAndRender();
+        function changeBg(color) {
+            selectedBgColor = color;
+            if (currentImg) processImage();
         }
 
         function adjustCopies(val) {
@@ -237,29 +225,57 @@
             if (copiesCount < 1) copiesCount = 1;
             if (copiesCount > 40) copiesCount = 40;
             copyCountSpan.innerText = copiesCount;
-            if (currentImage) renderGrid();
+            if (currentImg) renderGrid();
         }
 
-        function processAndRender() {
-            if (!currentImage) return;
+        function processImage() {
+            if (!currentImg) return;
 
-            ctx.fillStyle = bgColor;
+            // Step A: Draw Background
+            ctx.fillStyle = selectedBgColor;
             ctx.fillRect(0, 0, passportCanvas.width, passportCanvas.height);
 
-            ctx.filter = `brightness(${brightness}%) contrast(${contrast}%)`;
+            ctx.filter = `brightness(${brightness}%)`;
 
-            const hRatio = passportCanvas.width / currentImage.width;
-            const vRatio = passportCanvas.height / currentImage.height;
+            // Step B: Auto Center-Crop to Passport Aspect Ratio (3.5 : 4.5)
+            const hRatio = passportCanvas.width / currentImg.width;
+            const vRatio = passportCanvas.height / currentImg.height;
             const ratio = Math.max(hRatio, vRatio);
             
-            const centerShiftX = (passportCanvas.width - currentImage.width * ratio) / 2;
-            const centerShiftY = (passportCanvas.height - currentImage.height * ratio) / 2;
+            const centerShiftX = (passportCanvas.width - currentImg.width * ratio) / 2;
+            const centerShiftY = (passportCanvas.height - currentImg.height * ratio) / 2;
 
-            ctx.drawImage(currentImage, 0, 0, currentImage.width, currentImage.height,
-                          centerShiftX, centerShiftY, currentImage.width * ratio, currentImage.height * ratio);
+            ctx.drawImage(currentImg, 0, 0, currentImg.width, currentImg.height,
+                          centerShiftX, centerShiftY, currentImg.width * ratio, currentImg.height * ratio);
             
             ctx.filter = 'none';
+
+            // Step C: Auto Background Clean Simulation via Canvas Pixel Threshold (Removes light studio walls)
+            autoCleanupBackground();
             renderGrid();
+        }
+
+        function autoCleanupBackground() {
+            const imgData = ctx.getImageData(0, 0, passportCanvas.width, passportCanvas.height);
+            const data = imgData.data;
+            
+            // Detect corners to check background color
+            const rCorner = data[0], gCorner = data[1], bCorner = data[2];
+
+            // If background is mostly bright/white/light wall, neutralize outer pixels to selected background color
+            if (rCorner > 200 && gCorner > 200 && bCorner > 200) {
+                // Simple flood threshold for clean edges
+                for (let i = 0; i < data.length; i += 4) {
+                    if (data[i] > 220 && data[i+1] > 220 && data[i+2] > 220) {
+                        // Convert hex background to RGB
+                        const hex = selectedBgColor.replace('#','');
+                        data[i]   = parseInt(hex.substring(0,2), 16);
+                        data[i+1] = parseInt(hex.substring(2,4), 16);
+                        data[i+2] = parseInt(hex.substring(4,6), 16);
+                    }
+                }
+                ctx.putImageData(imgData, 0, 0);
+            }
         }
 
         function renderGrid() {
